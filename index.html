@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gerald Parish</title>
+<meta name="description" content="Gerald Parish — AI Engineer deploying agentic systems in regulated industries.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤠</text></svg>">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: #000;
+    color: #fff;
+    font-family: "Courier New", Courier, monospace;
+    overflow: hidden;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  #cowboy {
+    position: fixed;
+    top: 0; left: 0;
+    font-size: clamp(56px, 14vw, 120px);
+    line-height: 1;
+    user-select: none;
+    pointer-events: none;
+    will-change: transform, filter;
+    z-index: 0;
+  }
+  main {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+    padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+             max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  }
+  .card {
+    max-width: 34rem;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+  h1 {
+    font-size: clamp(1.8rem, 7vw, 3rem);
+    margin-bottom: 1rem;
+    letter-spacing: 0.02em;
+  }
+  p {
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+  a {
+    color: #fff;
+    font-size: clamp(1rem, 4vw, 1.15rem);
+    text-underline-offset: 4px;
+    word-break: break-word;
+    display: inline-block;
+    padding: 0.5rem 0; /* larger tap target */
+  }
+  a:hover, a:focus-visible { color: #ffd166; }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    column-gap: 0.75rem;
+  }
+  .sep { opacity: 0.5; }
+  @media (max-width: 420px) {
+    .links { flex-direction: column; }
+    .sep { display: none; }
+  }
+</style>
+</head>
+<body>
+  <div id="cowboy" aria-hidden="true">🤠</div>
+
+  <main>
+    <div class="card">
+      <h1>Gerald Parish</h1>
+      <p>Hey! I'm an AI Engineer experienced in deploying agentic systems in regulated industries (NASA, oil &amp; gas, healthcare, supply chain).</p>
+      <nav class="links">
+        <a href="mailto:email@geraldparish.com">email@geraldparish.com</a>
+        <span class="sep" aria-hidden="true">·</span>
+        <a href="https://www.linkedin.com/in/YOUR-HANDLE" target="_blank" rel="noopener">LinkedIn</a>
+      </nav>
+    </div>
+  </main>
+
+<script>
+(() => {
+  const el = document.getElementById('cowboy');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let x = 0, y = 0, w = 0, h = 0, hue = 0;
+  let vx = 1, vy = 1;
+
+  const speed = () => Math.max(90, Math.min(window.innerWidth, window.innerHeight) * 0.25); // px/sec
+
+  function measure() {
+    const r = el.getBoundingClientRect();
+    w = r.width; h = r.height;
+  }
+
+  function recolor() {
+    let next;
+    do { next = Math.floor(Math.random() * 360); } while (Math.abs(next - hue) < 60);
+    hue = next;
+    el.style.filter = `sepia(1) saturate(6) hue-rotate(${hue}deg)`;
+  }
+
+  function place() {
+    el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+  }
+
+  function init() {
+    measure();
+    x = Math.random() * Math.max(0, window.innerWidth - w);
+    y = Math.random() * Math.max(0, window.innerHeight - h);
+    vx = Math.random() < 0.5 ? -1 : 1;
+    vy = Math.random() < 0.5 ? -1 : 1;
+    recolor();
+    place();
+  }
+
+  let last = performance.now();
+  function tick(now) {
+    const dt = Math.min((now - last) / 1000, 0.05); // cap after tab switches
+    last = now;
+    const s = speed();
+    const maxX = Math.max(0, window.innerWidth - w);
+    const maxY = Math.max(0, window.innerHeight - h);
+
+    x += vx * s * dt;
+    y += vy * s * dt;
+
+    let hit = false;
+    if (x <= 0)    { x = 0;    vx = 1;  hit = true; }
+    if (x >= maxX) { x = maxX; vx = -1; hit = true; }
+    if (y <= 0)    { y = 0;    vy = 1;  hit = true; }
+    if (y >= maxY) { y = maxY; vy = -1; hit = true; }
+    if (hit) recolor();
+
+    place();
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('resize', () => {
+    measure();
+    x = Math.min(x, Math.max(0, window.innerWidth - w));
+    y = Math.min(y, Math.max(0, window.innerHeight - h));
+    place();
+  });
+
+  init();
+  if (!reduce) requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
